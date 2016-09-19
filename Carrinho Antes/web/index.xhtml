@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" 
+      >
+    <h:head>
+        <h:outputStylesheet library="css" name="table-style.css"  />
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:dataTable value="#{order.orderList}" var="o">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>Produtos</p:column>
+                    </p:row>
+                </f:facet>  
+
+                <p:column headerText="Código">
+                    #{o.productCode}
+                </p:column>
+
+                <p:column headerText="Nome">
+                    #{o.productName}
+                </p:column>
+
+                <p:column headerText="Preço">
+                    #{o.price}
+                </p:column>
+
+                <p:column headerText="Ação">
+                    <h:commandLink value="Adicionar ao carrinho" 
+                                   action="#{order.addAction(o)}" />
+                </p:column>
+            </p:dataTable>
+            <br style="clear: left;" />
+            <p:dataTable value="#{order.cartList}" var="c" rendered="#{not empty order.cartList}">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column>Carrinho</p:column>
+                    </p:row>
+                </f:facet>  
+
+                <p:column headerText="Código">
+                    #{c.productCode}
+                </p:column>
+
+                <p:column headerText="Nome">
+                    #{c.productName}
+                </p:column>
+
+                <p:column headerText="Preço">
+                    #{c.price}
+                </p:column>
+                
+                <p:column headerText="Quantidade">
+                    #{order.getTotalEspecific(c)}
+                </p:column>
+
+                <p:column headerText="Ação">
+                    <h:commandLink value="Remover do carrinho" 
+                                   action="#{order.deleteAction(c)}" />
+                </p:column>
+
+                <f:facet name="footer">
+                    Total: R$ #{order.totalPrice}
+                    <br style="clear: left;" />
+                    Média Total: R$ #{order.media}
+                </f:facet>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
